@@ -318,10 +318,34 @@ uint32_t cyccnt_get(void)
     return DWT->CYCCNT;
 }
 
+void check_button(void)
+{
+    bool button_pressed = false;
+
+    uint32_t i;
+    for (i = 0; i < BUTTONS_NUMBER; ++i)
+    {
+        button_pressed |= bsp_board_button_state_get(i);
+    }
+
+    if (button_pressed)
+    {
+        bsp_board_led_invert(0);
+        bsp_board_led_invert(1);
+        bsp_board_led_invert(2);
+        nrf_delay_ms(500);
+    }
+}
 
 int main(void)
 {
     ret_code_t ret;
+
+    /* Configure board. */
+    bsp_board_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS);
+
+    bsp_board_led_on(1);
+    bsp_board_led_on(3);
 
     if (USE_CYCCNT_TIMESTAMP_FOR_LOG)
     {
@@ -377,6 +401,7 @@ int main(void)
         }
 #endif
         cli_process();
+        check_button();
     }
 }
 

@@ -38,6 +38,7 @@
  *
  */
 #include <ctype.h>
+#include "boards.h"
 #include "nrf_cli.h"
 #include "nrf_log.h"
 #include "sdk_common.h"
@@ -441,9 +442,18 @@ static void cmd_float_print(nrf_cli_t const * p_cli, size_t argc, char **argv)
 }
 #endif // NRF_FPRINTF_DOUBLE_ENABLED
 
+static void cmd_invert_leds(nrf_cli_t const * p_cli, size_t argc, char **argv)
+{
+    bsp_board_led_invert(0);
+    bsp_board_led_invert(1);
+    bsp_board_led_invert(2);
+}
+
 /**
  * @brief Command set array
  * */
+NRF_CLI_CMD_REGISTER(invert_leds, NULL, "Invert the LEDs and the power", cmd_invert_leds);
+
 NRF_CLI_CMD_REGISTER(nordic, NULL, "Print Nordic Semiconductor logo.", cmd_nordic);
 
 #if NRF_FPRINTF_DOUBLE_ENABLED
