@@ -44,6 +44,8 @@
 #include "sdk_common.h"
 #include "nrf_stack_guard.h"
 
+#include "dli_relay.h"
+
 #define CLI_EXAMPLE_MAX_CMD_CNT (20u)
 #define CLI_EXAMPLE_MAX_CMD_LEN (33u)
 #define CLI_EXAMPLE_VALUE_BIGGER_THAN_STACK     (20000u)
@@ -442,17 +444,11 @@ static void cmd_float_print(nrf_cli_t const * p_cli, size_t argc, char **argv)
 }
 #endif // NRF_FPRINTF_DOUBLE_ENABLED
 
-static void cmd_invert_leds(nrf_cli_t const * p_cli, size_t argc, char **argv)
-{
-    bsp_board_led_invert(0);
-    bsp_board_led_invert(1);
-    bsp_board_led_invert(2);
-}
-
 /**
  * @brief Command set array
  * */
-NRF_CLI_CMD_REGISTER(invert_leds, NULL, "Invert the LEDs and the power", cmd_invert_leds);
+NRF_CLI_CMD_REGISTER(dli_switch, NULL, "Switch the status of the DLI relay outlets", dli_relay_outlets_switch);
+NRF_CLI_CMD_REGISTER(dli_status, NULL, "Get the status of the DLI relay outlets", dli_relay_outlets_status);
 
 NRF_CLI_CMD_REGISTER(nordic, NULL, "Print Nordic Semiconductor logo.", cmd_nordic);
 
